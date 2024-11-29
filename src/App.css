@@ -1,38 +1,70 @@
+/* General body styling */
+body {
+  background-color: #fdd835; /* Matching the yellow background */
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Main container */
 .App {
+  background-color: #ffffff;
+  width: 350px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  padding: 30px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Header text */
+h1 {
+  color: #333;
+  font-size: 28px;
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Form input fields */
+input {
+  width: 95%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid #ff7043;
+  border-radius: 8px;
+  font-size: 16px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* Buttons */
+button {
+  background-color: #ff7043;  /* Orange button */
   color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 15px;
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+button:hover {
+  background-color: #f4511e;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Toggle link */
+p {
+  margin-top: 15px;
+  color: #666;
+}
+
+p button {
+  background: none;
+  color: #ff7043;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 16px;
 }
