@@ -252,9 +252,9 @@ const Home = ({ user }) => {
         <p>"The best way to find yourself is to lose yourself in the service of others." - Mahatma Gandhi</p>
       </section>
       <div className="redirect-button">
-        <button onClick={() => navigate('/volunteer-search')}>
-          Go to Volunteer Search
-        </button>
+      <button onClick={() => navigate('/volunteer-search', { state: { userProfile } })}>
+  Go to Volunteer Search
+</button>
       </div>
     </div>
   );

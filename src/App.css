@@ -2,8 +2,8 @@
 
 /* General body styling */
 body {
-  background-color: #fdd835; /* Matching the yellow background */
-  font-family: 'Arial', sans-serif;
+  background-color: #fdd835; /* Yellow background */
+  font-family: 'Montserrat', sans-serif; /* Use Montserrat font */
   margin: 0;
   padding: 0;
   display: flex;
@@ -14,7 +14,7 @@ body {
 
 /* Main container */
 .App {
-  background-color: #ffffff;
+  background-color: #ffffff; /* White background for main container */
   width: 350px;
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -24,7 +24,7 @@ body {
 
 /* Header text */
 h1 {
-  color: #fffc40;
+  color: #d32f2f; /* Red color for header text */
   font-size: 30px;
   margin-bottom: 20px;
   padding-bottom: 20px;
@@ -35,14 +35,14 @@ input {
   width: 95%;
   padding: 10px;
   margin: 10px 0;
-  border: 2px solid #ff7043;
+  border: 2px solid #d32f2f; /* Red border for input fields */
   border-radius: 8px;
   font-size: 16px;
 }
 
 /* Buttons */
 button {
-  background-color: #ff7043;  /* Orange button */
+  background-color: #d32f2f;  /* Red button */
   color: white;
   border: none;
   padding: 12px 20px;
@@ -53,15 +53,16 @@ button {
   width: 100%;
 }
 
+button:hover {
+  background-color: #b71c1c; /* Darker red on hover */
+}
+
+/* App logo */
 .app-logo {
   width: 80px;
   height: 80px;
   margin-bottom: 20px;
   justify-content: center;
-}
-
-button:hover {
-  background-color: #f4511e;
 }
 
 /* Toggle link */
@@ -72,12 +73,13 @@ p {
 
 p button {
   background: none;
-  color: #ff7043;
+  color: #d32f2f; /* Red color for toggle link */
   border: none;
   cursor: pointer;
   text-decoration: underline;
   font-size: 16px;
 }
+
 /* Modal Container */
 .modal {
   position: fixed;
@@ -118,11 +120,11 @@ p button {
   border-radius: 5px;
 }
 
-/* Button styling */
+/* Button styling in modal */
 .modal-content button {
   margin-right: 10px;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #d32f2f; /* Red button */
   color: white;
   border: none;
   border-radius: 5px;
@@ -130,12 +132,12 @@ p button {
 }
 
 .modal-content button:hover {
-  background-color: #0056b3;
+  background-color: #b71c1c; /* Darker red on hover */
 }
 
 /* Close button styling */
 button {
-  background-color: #f44336;
+  background-color: #f44336; /* Red close button */
   color: white;
   border: none;
   border-radius: 5px;
@@ -144,5 +146,17 @@ button {
 }
 
 button:hover {
-  background-color: #d32f2f;
+  background-color: #d32f2f; /* Darker red on hover */
+}
+
+.signup-link {
+  color: #ff3636; /* Red color for signup link */
+  text-decoration: none;
+  font-weight: bold;
+  font-family: "montserrat", sans-serif;
+}
+.signup-link:hover {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #b71c1c;
 }

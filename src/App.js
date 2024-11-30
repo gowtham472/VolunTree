@@ -7,6 +7,7 @@ import SignUp from './SignUp';
 import Home from './Home';
 import Emergency from './emergency'; // Import the Emergency component
 import VolunteerSearch from './VolunteerSearch';
+import './App.css';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -44,7 +45,7 @@ function App() {
                   <SignUp />
                   <p>
                     Already have an account?{' '}
-                    <button onClick={toggleAuthMode}>Login</button>
+                    <button onClick={toggleAuthMode} className='signup-link'>Login</button>
                   </p>
                 </>
               ) : (
@@ -52,7 +53,7 @@ function App() {
                   <Login />
                   <p>
                     Don't have an account?{' '}
-                    <button onClick={toggleAuthMode}>Sign Up</button>
+                    <button onClick={toggleAuthMode} className='signup-link'>Sign Up</button>
                   </p>
                 </>
               )

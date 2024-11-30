@@ -1,61 +1,127 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
 .body {
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-    }
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Keep the background light */
+}
 
 .home-container {
     font-family: "montserrat", sans-serif;
-  }
-  
-  header {
+}
+
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background-color: #f4f4f4;
-  }
-  
-  .logo {
+    background-color: #fadb49; /* Yellow background for the header */
+}
+
+.logo {
     font-size: 24px;
     font-weight: bold;
-  }
-  
-  .profile-btn {
+    color: white; /* White text for the logo */
+}
+
+.profile-btn {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #ff3333; /* Red button for profile */
     color: white;
     border: none;
     cursor: pointer;
-  }
-  
-  .hero {
+}
+
+.profile-btn:hover {
+    background-color: #e02e2e; /* Darker red on hover */
+}
+
+.hero {
     text-align: center;
     margin-top: 50px;
-  }
-  
-  .hero h1 {
+}
+
+.hero h1 {
     font-size: 36px;
-  }
-  
-  .profile-section {
+    color: #fadb49; /* Yellow color for the main heading */
+}
+
+.profile-section {
     margin-top: 20px;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: white; /* White background for profile section */
     border-radius: 8px;
-  }
-  
-  button {
+    border: 2px solid #fadb49; /* Yellow border */
+}
+
+button {
     padding: 10px 20px;
-    background-color: #007BFF;
+    background-color: #ff3333; /* Red button */
     color: white;
     border: none;
     cursor: pointer;
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-  }
-  
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #e02e2e; /* Darker red on hover */
+}
+
+button:disabled {
+    background-color: #ccc; /* Disabled button color */
+}
+
+.error {
+    color: #ff3333; /* Red text for error messages */
+}
+
+.problems-list {
+    margin-top: 20px;
+}
+
+.problem-card {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #fadb49; /* Yellow border for problems */
+}
+
+.problem-card h3 {
+    color: #fadb49; /* Yellow title for each problem */
+}
+
+.problem-card p {
+    color: #333; /* Dark color for the description */
+}
+
+.problems-list h2 {
+    color: #fadb49; /* Yellow heading for problems list */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    border: 2px solid #fadb49; /* Yellow border for modal */
+}
+
+.modal-content button {
+    background-color: #ff3333; /* Red button for modal */
+    color: white;
+}
+
+.modal-content button:hover {
+    background-color: #e02e2e; /* Darker red on hover for modal buttons */
+}
+
+input, textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #f0f0f0;
+}
+
+input[type="text"]:focus, textarea:focus {
+    border-color: #fadb49; /* Yellow focus border */
+}
