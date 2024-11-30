@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from './firebase'; // Firebase configuration
 import './VolunteerSearch.css'; // Custom styles
@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom';
 
 const VolunteerSearch = () => {
   const navigate = useNavigate();
+  const mapRef = useRef(null);  // Use ref for map container
   const [disasterTitle, setDisasterTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
   const [volunteers, setVolunteers] = useState([]);
   const [userLocation, setUserLocation] = useState({ latitude: 0, longitude: 0 });
   const [loading, setLoading] = useState(false);
@@ -35,39 +35,48 @@ const VolunteerSearch = () => {
   }, []);
 
   // Form submission handler
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const volunteerRef = query(collection(db, 'login_data'), where('status', '==', 'volunteer'));
-      const volunteerSnapshot = await getDocs(volunteerRef);
-      const fetchedVolunteers = [];
-
-      volunteerSnapshot.forEach((doc) => {
-        const data = doc.data();
-        const volunteerLocation = data.location;
-        // Use OpenVINO AI or any filtering logic based on description
-        const processedData = OpenVINOAI.filterVolunteer(data, description); // Replace with actual OpenVINO logic
-        if (processedData && volunteerLocation) {
-          fetchedVolunteers.push({ ...data, id: doc.id });
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setLoading(true);
+      try {
+        const volunteerRef = query(collection(db, 'login_data'), where('status', '==', 'volunteer'));
+        const volunteerSnapshot = await getDocs(volunteerRef);
+        const fetchedVolunteers = [];
+    
+        volunteerSnapshot.forEach((doc) => {
+          const data = doc.data();
+          console.log('Fetched volunteer data:', data);
+    
+          const volunteerLocation = data.location;
+          console.log('Volunteers array:', volunteers);
+          const processedData = OpenVINOAI.filterVolunteer(data, description, disasterTitle, userLocation); // Filtering logic
+          if (processedData && volunteerLocation) {
+            fetchedVolunteers.push({ ...data, id: doc.id });
+          }
+        });
+    
+        // If no relevant volunteers, fetch nearby volunteers based on proximity
+        if (fetchedVolunteers.length === 0) {
+          console.log('No relevant volunteers found, fetching nearby volunteers...');
+          const nearbyVolunteers = OpenVINOAI.getNearbyVolunteers(fetchedVolunteers, userLocation);
+          setVolunteers(nearbyVolunteers);
+        } else {
+          setVolunteers(fetchedVolunteers);
         }
-      });
-
-      setVolunteers(fetchedVolunteers);
-    } catch (err) {
-      setError('Error fetching volunteers. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+      } catch (err) {
+        console.error('Error fetching volunteers:', err); // Log the error for debugging
+        setError('Error fetching volunteers. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
   // Map Section: Render Map with Volunteers or Only User Location
   const MapComponent = ({ volunteers, userLocation }) => {
     useEffect(() => {
-      const mapContainer = document.getElementById('map');
-      if (mapContainer._leaflet_id) return; // Avoid reinitialization
+      if (!userLocation.latitude || !userLocation.longitude) return;
 
-      const map = L.map('map').setView([userLocation.latitude, userLocation.longitude], 10);
+      const map = L.map(mapRef.current).setView([userLocation.latitude, userLocation.longitude], 10);
 
       // Add tile layer
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -101,9 +110,10 @@ const VolunteerSearch = () => {
           </div>
         `);
       });
-    }, [volunteers, userLocation]);
 
-    return <div id="map" className="map"></div>;
+    }, [volunteers, userLocation]); // Re-render when volunteers or userLocation changes
+
+    return <div id="map" ref={mapRef} className="map"></div>;
   };
 
   return (
@@ -123,13 +133,6 @@ const VolunteerSearch = () => {
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Location (Address)"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
             required
           />
           <button type="submit" disabled={loading}>
