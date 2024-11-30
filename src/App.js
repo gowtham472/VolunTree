@@ -6,6 +6,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 import Home from './Home';
 import Emergency from './emergency'; // Import the Emergency component
+import VolunteerSearch from './VolunteerSearch';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -62,7 +63,8 @@ function App() {
           {/* Home Route */}
           <Route path="/home" element={<Home />} />
           {/* Login Route */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<App />} />
+          <Route path="/volunteer-search" element={<VolunteerSearch />} />
         </Routes>
       </div>
   );

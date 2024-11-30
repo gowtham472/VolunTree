@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import {React, useState, useEffect } from 'react';
 import { auth, db, messaging } from './firebase'; // Firebase config
 import { collection, getDoc, doc, getDocs, setDoc } from 'firebase/firestore';
 import { getToken } from 'firebase/messaging';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
+import logo from './applogo.png';
 
 const Home = ({ user }) => {
   const navigate = useNavigate(); // Navigation hook
@@ -16,17 +17,20 @@ const Home = ({ user }) => {
   const [userProfile, setUserProfile] = useState({
     name: '',
     email: '',
-    location: '',
-    address: '',
-    phoneNumber: '',
-    status: ''
+    status: 'Explorer',
+    mobile: '',
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    state: '',
   });
+  const [showProfileModal, setShowProfileModal] = useState(false); // Profile modal state
 
   // Handle logout and redirect
   const handleLogout = async () => {
     try {
       await auth.signOut();
-      navigate('/login'); // Redirect to login page
+      navigate('/'); // Redirect to login page
     } catch (error) {
       console.error('Sign-out error:', error);
     }
@@ -43,21 +47,14 @@ const Home = ({ user }) => {
           if (userDocSnap.exists()) {
             const userData = userDocSnap.data();
             setUserProfile({
-              name: userData.name || user.email, // Fallback to email if name doesn't exist
+              name: userData.name || user.displayName,
               email: user.email,
-              location: userData.location || '',
-              address: userData.address || '',
-              phoneNumber: userData.phoneNumber || '',
-              status: userData.status || 'Explorer' // Default status as Explorer
-            });
-          } else {
-            setUserProfile({
-              name: user.email,
-              email: user.email,
-              location: '',
-              address: '',
-              phoneNumber: '',
-              status: 'Explorer'
+              status: userData.status || 'Explorer',
+              mobile: userData.mobile || '',
+              addressLine1: userData.addressLine1 || '',
+              addressLine2: userData.addressLine2 || '',
+              city: userData.city || '',
+              state: userData.state || '',
             });
           }
         } catch (err) {
@@ -69,6 +66,18 @@ const Home = ({ user }) => {
 
     fetchUserData();
   }, [user]);
+
+  // Handle profile updates
+  const handleProfileUpdate = async () => {
+    try {
+      const userDocRef = doc(db, 'login_data', user.uid);
+      await setDoc(userDocRef, userProfile, { merge: true });
+      setShowProfileModal(false); // Close modal on success
+    } catch (err) {
+      console.error('Error updating profile:', err);
+      setError('Failed to update profile.');
+    }
+  };
 
   // Request notification permission and retrieve FCM token
   useEffect(() => {
@@ -169,28 +178,84 @@ const Home = ({ user }) => {
     <div className="home-container">
       {/* Header */}
       <header>
-        <div className="logo">
-          <h1>Voluntree</h1>
+        <div className="logo" style={{ display: 'flex', alignItems: 'center',justifyContent: 'space-around' }}>
+        <img src={logo} alt="Voluntree Logo" className="app-logo" />
+          <h1>VolunTree</h1>
         </div>
         <div className="profile">
+          <button onClick={() => setShowProfileModal(true)}>Edit Profile</button>
           <button onClick={handleLogout}>Log Out</button>
           <div className="profile-info">
             <h3>{userProfile.name}</h3> {/* Display user's name */}
             <p>{userProfile.email}</p> {/* Optionally display email */}
-            <p>{userProfile.location ? `Location: ${userProfile.location}` : 'Location not set'}</p>
-            <p>{userProfile.address ? `Address: ${userProfile.address}` : 'Address not set'}</p>
-            <p>{userProfile.phoneNumber ? `Phone: ${userProfile.phoneNumber}` : 'Phone number not set'}</p>
             <p>Status: {userProfile.status}</p>
           </div>
         </div>
       </header>
+
+      {/* Profile Modal */}
+      <div className={`modal ${showProfileModal ? 'show' : ''}`}>
+        <div className="modal-content">
+          <h2>Edit Profile</h2>
+          <input
+            type="text"
+            placeholder="Name"
+            value={userProfile.name}
+            onChange={(e) => setUserProfile({ ...userProfile, name: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Mobile"
+            value={userProfile.mobile}
+            onChange={(e) => setUserProfile({ ...userProfile, mobile: e.target.value })}
+          />
+          {/* Dropdown for Status */}
+          <select
+            value={userProfile.status}
+            onChange={(e) => setUserProfile({ ...userProfile, status: e.target.value })}
+          >
+            <option value="Explorer">Explorer</option>
+            <option value="Volunteer">Volunteer</option>
+          </select>
+          <input
+            type="text"
+            placeholder="Address Line 1"
+            value={userProfile.addressLine1}
+            onChange={(e) => setUserProfile({ ...userProfile, addressLine1: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Address Line 2"
+            value={userProfile.addressLine2}
+            onChange={(e) => setUserProfile({ ...userProfile, addressLine2: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="City"
+            value={userProfile.city}
+            onChange={(e) => setUserProfile({ ...userProfile, city: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="State"
+            value={userProfile.state}
+            onChange={(e) => setUserProfile({ ...userProfile, state: e.target.value })}
+          />
+          <button onClick={handleProfileUpdate}>Save</button>
+          <button onClick={() => setShowProfileModal(false)}>Cancel</button>
+        </div>
+      </div>
 
       {/* Hero Section */}
       <section className="hero">
         <h2>Welcome to the Volunteer Family</h2>
         <p>"The best way to find yourself is to lose yourself in the service of others." - Mahatma Gandhi</p>
       </section>
-
+      <div className="redirect-button">
+        <button onClick={() => navigate('/volunteer-search')}>
+          Go to Volunteer Search
+        </button>
+      </div>
       {/* Emergency Button and Search Volunteers */}
       <div className="emergency-loader">
         <h3>Find Nearby Volunteers</h3>
@@ -200,19 +265,16 @@ const Home = ({ user }) => {
         {error && <p className="error">{error}</p>}
       </div>
 
-      {/* Volunteers List */}
+      {/* Volunteer Listings */}
       <div className="volunteers-list">
-        {volunteers.length > 0 ? (
-          <ul>
-            {volunteers.map((vol) => (
-              <li key={vol.id}>
-                {vol.name} ({vol.email}) - Location: {vol.location.latitude}, {vol.location.longitude}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          !loading && <p>No nearby volunteers found.</p>
-        )}
+        {volunteers.map((volunteer) => (
+          <div key={volunteer.id} className="volunteer-card">
+            <h4>{volunteer.name}</h4>
+            <p>{volunteer.status}</p>
+            <p>{volunteer.addressLine1}, {volunteer.city}, {volunteer.state}</p>
+            <p>Distance: {volunteer.distance} km</p>
+          </div>
+        ))}
       </div>
     </div>
   );
