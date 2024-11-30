@@ -218,7 +218,7 @@ const MapComponent = ({ volunteers, userLocation }) => {
     // Add volunteer markers with animated circles
     volunteers.forEach((volunteer) => {
       const marker = L.marker([volunteer.location.latitude, volunteer.location.longitude]).addTo(map);
-      marker.bindPopup(`<strong>${volunteer.name}</strong><br/>Status: ${volunteer.status}`);
+      marker.bindPopup(`<strong>${volunteer.name}</strong><br/>Status: ${volunteer.status}<br />Mobile: ${volunteer.phone}`);
 
       // Animated circle (simulate radar pulse)
       const circle = L.circle([volunteer.location.latitude, volunteer.location.longitude], {

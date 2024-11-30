@@ -256,26 +256,6 @@ const Home = ({ user }) => {
           Go to Volunteer Search
         </button>
       </div>
-      {/* Emergency Button and Search Volunteers */}
-      <div className="emergency-loader">
-        <h3>Find Nearby Volunteers</h3>
-        <button onClick={findNearbyVolunteers} disabled={loading}>
-          {loading ? 'Loading...' : 'Find Volunteers'}
-        </button>
-        {error && <p className="error">{error}</p>}
-      </div>
-
-      {/* Volunteer Listings */}
-      <div className="volunteers-list">
-        {volunteers.map((volunteer) => (
-          <div key={volunteer.id} className="volunteer-card">
-            <h4>{volunteer.name}</h4>
-            <p>{volunteer.status}</p>
-            <p>{volunteer.addressLine1}, {volunteer.city}, {volunteer.state}</p>
-            <p>Distance: {volunteer.distance} km</p>
-          </div>
-        ))}
-      </div>
     </div>
   );
 };
