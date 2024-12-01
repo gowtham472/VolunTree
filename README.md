@@ -1,4 +1,4 @@
-# 🌿 ***Voluntree: Connecting Volunteers in Times of Crisis*** 🌿
+# 🌿 ****Voluntree: Connecting Volunteers in Times of Crisis**** 🌿
 
 Voluntree is a volunteer coordination platform designed to connect individuals in need with nearby volunteers during emergencies. This project aims to facilitate swift and effective disaster response, support relief efforts, and promote community-driven initiatives, aligning with the United Nations' Sustainable Development Goals (SDGs).
 
