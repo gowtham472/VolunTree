@@ -1,0 +1,27 @@
+.create-post-container {
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+  }
+  
+  .create-post-container form input,
+  .create-post-container form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .create-post-container form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

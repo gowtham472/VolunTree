@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Emergency collection rules - Open for read/write for all users
+    match /emergencies/{document=**} {
+      allow read, write: if true;
+    }
+
+    // Login data collection - Only authenticated users can read/write their own data
+    match /login_data/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+		match /posts/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

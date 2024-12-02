@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth, db } from './firebase'; // Ensure these are correctly imported
 import { setDoc, doc } from 'firebase/firestore'; // Import Firestore functions
-import { Phone } from 'lucide-react';
 
 const SignUp = () => {
   const [name, setName] = useState('');
@@ -12,6 +11,10 @@ const SignUp = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [location, setLocation] = useState(null);
+  const [expertise, setExpertise] = useState('');
+  const [skill, setSkill] = useState('');
+  const [description, setDescription] = useState('');
+
 
   // Get user location
   const getLocation = () => {
@@ -38,33 +41,40 @@ const SignUp = () => {
       setError('Location is required');
       return;
     }
-
+  
     try {
       // Create user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+  
       // Send verification email
       await sendEmailVerification(user);
       setSuccessMessage('Verification email sent! Please check your inbox.');
-
+  
       // Store user data in Firestore (in login_data collection)
       await setDoc(doc(db, 'login_data', user.uid), {
         name,
         email,
-        password,
-        Phone,
+        phone: Phone,
         location,
+        availability: true,
+        description,
+        expertise,
+        skill,
+        volunteerStatus: "active",
+        imageURL: "",
         createdAt: new Date(),
-        emailVerified: false, // Initially false, update after verification
+        emailVerified: false,
       });
-
+      
+  
       console.log('User registered and verification email sent:', user);
-
+  
     } catch (err) {
       setError(err.message); // Handle errors (e.g., weak password, email already in use)
     }
   };
+  
 
   // Get location on component mount
   React.useEffect(() => {
@@ -98,6 +108,28 @@ const SignUp = () => {
           onChange={(e) => setPhone(e.target.value)}
           required
         />
+        <input
+          type="text"
+          placeholder="Expertise"
+          value={expertise}
+          onChange={(e) => setExpertise(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Skill"
+          value={skill}
+          onChange={(e) => setSkill(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+
         <input
           type="password"
           placeholder="Password"

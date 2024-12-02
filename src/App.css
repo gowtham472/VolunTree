@@ -9,17 +9,26 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  margin-top: 50px;
 }
 
 /* Main container */
 .App {
   background-color: #ffffff; /* White background for main container */
   width: 350px;
+  margin-top: 50px;
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   padding: 30px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Header text */
@@ -84,7 +93,7 @@ p button {
 .modal {
   position: fixed;
   top: 0;
-  right: -100%;  /* Start the modal outside the screen on the right */
+  right: -100%;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {  Routes, Route } from 'react-router-dom'; // Import routing tools
+import { Routes, Route, Navigate } from 'react-router-dom'; // Import routing tools
 import { auth } from './firebase'; // Firebase setup
 import WelcomePage from './Welcome';
 import Login from './Login';
@@ -7,6 +7,8 @@ import SignUp from './SignUp';
 import Home from './Home';
 import Emergency from './emergency'; // Import the Emergency component
 import VolunteerSearch from './VolunteerSearch';
+import CreatePost from './volun_post/CreatePost';
+import Events from './volun_post/Events';
 import './App.css';
 
 function App() {
@@ -31,8 +33,10 @@ function App() {
   };
 
   return (
-      <div className="App">
+    <div className="App">
+      <div className="app-container">
         <Routes>
+          {/* Home Route */}
           <Route
             path="/"
             element={
@@ -59,15 +63,38 @@ function App() {
               )
             }
           />
+          
           {/* Emergency Route */}
           <Route path="/emergency" element={<Emergency />} />
-          {/* Home Route */}
-          <Route path="/home" element={<Home />} />
-          {/* Login Route */}
-          <Route path="/login" element={<App />} />
-          <Route path="/volunteer-search" element={<VolunteerSearch />} />
+          
+          {/* Protected Route for Volunteer Search */}
+          <Route
+            path="/volunteer-search"
+            element={user ? <VolunteerSearch /> : <Navigate to="/login" />}
+          />
+          
+          {/* Create Post Route */}
+          <Route
+            path="/create-post"
+            element={user ? <CreatePost /> : <Navigate to="/login" />}
+          />
+          
+          {/* Protected Route for Events - Only accessible if user is logged in and profile is completed */}
+          <Route
+            path="/events"
+            element={
+              user ? (
+                user.displayName && user.email ? <Events /> : <Navigate to="/home" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          {/*Login Route */}
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
+    </div>
   );
 }
 
