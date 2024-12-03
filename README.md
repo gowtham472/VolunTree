@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+# 🌿 ****Voluntree: Connecting Volunteers in Times of Crisis**** 🌿
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Voluntree is a volunteer coordination platform designed to connect individuals in need with nearby volunteers during emergencies. This project aims to facilitate swift and effective disaster response, support relief efforts, and promote community-driven initiatives, aligning with the United Nations' Sustainable Development Goals (SDGs).
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+### 🚀 **Core Features:**
 
-### `npm start`
+1. **Authentication:**
+   - Sign-up and login functionality with Firebase Authentication.
+   - Google Sign-In integration for quick and secure access.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. **Volunteer Management:**
+   - Toggle between **Volunteer** or **Seeking Volunteers** status.
+   - Profile settings with personalized information.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. **Volunteer Search System:**
+   - Users can input disaster details and request help.
+   - Displays nearby volunteers on a map with yellow pins.
+   - Volunteer pins show additional details (name, image, phone number) on hover.
+   - Volunteers filtered using OpenVINO AI based on proximity, availability, and past activities.
 
-### `npm test`
+4. **Emergency Features:**
+   - Request emergency assistance with location-based services.
+   - Notifications sent to nearby volunteers using Firebase Cloud Messaging (FCM).
+   - Map displays user location, even if no volunteers are found.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+5. **Community Support:**
+   - **Problems Page:** Post problems like social media posts, including title, description, and image.
+   - Each post includes a **Donate** button redirecting users to UPI or Google Pay for direct contributions.
 
-### `npm run build`
+6. **Climate and Funding Options:**
+   - Climate report section for real-time updates.
+   - Option to fund projects directly for those unable to volunteer physically.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 🛠️ **Technologies Used:**
+- **Frontend:** HTML, CSS, JavaScript (ES6)
+- **Backend:** Firebase (Firestore, Authentication, FCM)
+- **AI Integration:** OpenVINO (for volunteer filtering)
+- **Mapping:** Geolocation APIs, interactive map with custom markers
+- **Notifications:** Firebase Cloud Messaging (FCM)
+- **Payment Integration:** UPI, Google Pay (for donations)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+### 🔍 **How to Run:**
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/yourusername/voluntree.git
+   cd voluntree
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. **Setup Firebase:**
+   - Add your Firebase configuration in `firebaseConfig.js`.
+   - Ensure Firestore rules are configured for secure access.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. **Run the Project:**
+   ```bash
+   npm start
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+### 🤝 **Contributing:**
+We welcome contributions! Please open an issue or submit a pull request. Let's build a strong community of support together.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 📜 **License:**
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 💡 **Inspiration:**
+Voluntree was developed for the **Intel® AI Hackathon** with the mission to connect volunteers effectively during crises, supporting community resilience and sustainable development.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 📫 **Connect:**
+For any questions or support, reach out to [your email or contact link]. Let's make a difference together! 🌍💚
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
