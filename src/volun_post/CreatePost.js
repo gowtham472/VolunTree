@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { db, storage } from '../firebase';
+import { db } from '../firebase'; // Ensure Firebase is properly configured
 import { QRCodeSVG } from 'qrcode.react';
 import './CreatePost.css';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Correct imports for storage
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'; // Correct imports for Firestore
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 
 const CreatePost = () => {
   const [postData, setPostData] = useState({
@@ -17,17 +18,25 @@ const CreatePost = () => {
   const [qrCode, setQrCode] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
 
+  const navigate = useNavigate(); // Initialize useNavigate
+
   // Get user's current location (geotag)
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setUserLocation({ latitude, longitude });
-        setPostData((prevData) => ({
-          ...prevData,
-          geoTag: `${latitude},${longitude}`, // Store geotag as a string of lat, long
-        }));
-      });
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ latitude, longitude });
+          setPostData((prevData) => ({
+            ...prevData,
+            geoTag: `${latitude},${longitude}`,
+          }));
+        },
+        (error) => {
+          console.error('Error fetching location:', error);
+          alert('Could not fetch location. Please enable location services.');
+        }
+      );
     }
   }, []);
 
@@ -45,11 +54,23 @@ const CreatePost = () => {
   // Handle form submission to upload post data
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!image) {
+      alert('Please select an image');
+      return;
+    }
+
     try {
-      // Upload image to Firebase Storage
-      const imageRef = ref(storage, `posts/${image.name}`);
-      await uploadBytes(imageRef, image);
-      const imageURL = await getDownloadURL(imageRef);
+      // Upload image to Cloudinary
+      const formData = new FormData();
+      formData.append('file', image);
+      formData.append('upload_preset', 'VolunTree'); // Ensure preset name is correct
+
+      const response = await axios.post(
+        'https://api.cloudinary.com/v1_1/ddut1e2yq/image/upload', // Replace with your Cloudinary cloud name
+        formData
+      );
+
+      const imageURL = response.data.secure_url;
 
       // Add post data to Firestore
       await addDoc(collection(db, 'posts'), {
@@ -58,17 +79,24 @@ const CreatePost = () => {
         timestamp: serverTimestamp(),
       });
 
-      // Generate QR code for donation
-      setQrCode(postData.upiId); 
+      // Generate UPI QR code link
+      const upiURL = `upi://pay?pa=${postData.upiId}&pn=${encodeURIComponent(postData.name)}&am=0&cu=INR`;
+      setQrCode(upiURL);
+
       alert('Post created successfully!');
     } catch (error) {
       console.error('Error creating post:', error);
+      alert('Failed to create post. Please try again.');
     }
   };
 
   return (
     <div className="create-post-container">
       <h2>Create a Disaster Event Post</h2>
+      
+      {/* Back Button */}
+      <button onClick={() => navigate(-1)} className="back-button">Back</button>
+
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -101,7 +129,7 @@ const CreatePost = () => {
           type="text"
           name="geoTag"
           placeholder="Location (Geotag)"
-          value={postData.geoTag} // Automatically filled with geotag
+          value={postData.geoTag}
           readOnly
         />
         <input
@@ -116,7 +144,7 @@ const CreatePost = () => {
       {qrCode && (
         <div className="qr-container">
           <h3>Donation QR Code</h3>
-          <QRCodeSVG value={qrCode} />
+          <QRCodeSVG value={qrCode} size={200} />
         </div>
       )}
     </div>

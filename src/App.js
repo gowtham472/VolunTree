@@ -10,6 +10,10 @@ import VolunteerSearch from './VolunteerSearch';
 import CreatePost from './volun_post/CreatePost';
 import Events from './volun_post/Events';
 import './App.css';
+import './volun_post/CreatePost.js';
+import SubmitPayment from'./volun_post/SubmitPayment.js';
+
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -92,7 +96,9 @@ function App() {
           />
           {/*Login Route */}
           <Route path="/login" element={<Login />} />
-        </Routes>
+          <Route path="/submit-payment" element={<SubmitPayment />} />
+        <Route path="/create-post" element={<CreatePost />} />
+          </Routes>
       </div>
     </div>
   );

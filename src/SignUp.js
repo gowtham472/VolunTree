@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth, db } from './firebase'; // Ensure these are correctly imported
 import { setDoc, doc } from 'firebase/firestore'; // Import Firestore functions
+import './styles.css';
+import './App.css';
 
 const SignUp = () => {
   const [name, setName] = useState('');
