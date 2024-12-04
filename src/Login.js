@@ -76,8 +76,7 @@ const Login = () => {
         navigate('/home', { state: userData }); // Pass user data to Home
       } else {
         // If the user doesn't exist in Firestore, prompt them to complete their profile
-        alert('Your profile is incomplete. Please update it.');
-        navigate('/profile'); // Navigate to a profile creation page
+        alert('Your profile is incomplete. Please update it By clicking on Update Profile.');
       }
     } catch (error) {
       console.error('Google Sign-In error:', error.message);
@@ -113,7 +112,7 @@ const Login = () => {
         Sign in with Google
       </button>
 
-      <button className="emergency-button" onClick={() => navigate('/emergency')}>
+      <button className="emergency-button" onClick={() => navigate('/volunteer-search')}>
         Emergency
       </button>
     </div>

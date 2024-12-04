@@ -42,7 +42,7 @@ const Events = () => {
     <div className="events-container">
       <h2>Disaster Events</h2>
       <button onClick={() => navigate('/create-post')}>Create Post</button>
-
+      <button onClick={() => navigate(-1)}>Back</button>
       {events.length === 0 ? (
         <p>No events posted yet.</p>
       ) : (

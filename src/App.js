@@ -5,20 +5,16 @@ import WelcomePage from './Welcome';
 import Login from './Login';
 import SignUp from './SignUp';
 import Home from './Home';
-import Emergency from './emergency'; // Import the Emergency component
 import VolunteerSearch from './VolunteerSearch';
 import CreatePost from './volun_post/CreatePost';
 import Events from './volun_post/Events';
+import SubmitPayment from './volun_post/SubmitPayment';
 import './App.css';
-import './volun_post/CreatePost.js';
-import SubmitPayment from'./volun_post/SubmitPayment.js';
-
-
 
 function App() {
   const [user, setUser] = useState(null);
   const [showSignUp, setShowSignUp] = useState(false);
-  const [showWelcomePage, setShowWelcomePage] = useState(true); // Control welcome page display
+  const [showWelcomePage, setShowWelcomePage] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -31,7 +27,6 @@ function App() {
     setShowSignUp((prev) => !prev);
   };
 
-  // Hide Welcome Page
   const handleGetStarted = () => {
     setShowWelcomePage(false);
   };
@@ -40,7 +35,6 @@ function App() {
     <div className="App">
       <div className="app-container">
         <Routes>
-          {/* Home Route */}
           <Route
             path="/"
             element={
@@ -67,38 +61,13 @@ function App() {
               )
             }
           />
-          
-          {/* Emergency Route */}
-          <Route path="/emergency" element={<Emergency />} />
-          
-          {/* Protected Route for Volunteer Search */}
-          <Route
-            path="/volunteer-search"
-            element={user ? <VolunteerSearch /> : <Navigate to="/login" />}
-          />
-          
-          {/* Create Post Route */}
-          <Route
-            path="/create-post"
-            element={user ? <CreatePost /> : <Navigate to="/login" />}
-          />
-          
-          {/* Protected Route for Events - Only accessible if user is logged in and profile is completed */}
-          <Route
-            path="/events"
-            element={
-              user ? (
-                user.displayName && user.email ? <Events /> : <Navigate to="/home" />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          {/*Login Route */}
+          <Route path="/volunteer-search" element={ <VolunteerSearch />} />
+          <Route path="/create-post" element={user ? <CreatePost /> : <Navigate to="/login" />} />
+          <Route path="/events" element={user ? <Events /> : <Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/submit-payment" element={<SubmitPayment />} />
-        <Route path="/create-post" element={<CreatePost />} />
-          </Routes>
+          <Route path="/home" element={<Home />} />
+        </Routes>
       </div>
     </div>
   );

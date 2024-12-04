@@ -20,6 +20,7 @@ body {
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   padding: 30px;
+  margin-bottom: 50px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -72,6 +73,7 @@ button:hover {
   height: 80px;
   margin-bottom: 20px;
   justify-content: center;
+  color:#fdd835;
 }
 
 /* Toggle link */
